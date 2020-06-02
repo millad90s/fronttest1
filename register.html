@@ -34,7 +34,7 @@
               <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
               </div>
-              <form class="user" action="http://localhost:8080/login" method="POST">
+              <form class="user" id="user-frm" action="http://localhost:8080/registeruser" method="POST">
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
                     <input type="text" name="username" class="form-control form-control-user" id="exampleFirstName" placeholder="Username">
@@ -54,7 +54,10 @@
                     <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Repeat Password">
                   </div>
                 </div>
-                <button type="submit"  class="btn btn-primary btn-user btn-block"  >Signup</button>
+                <button type="submit" id="create-btn" class="btn btn-primary btn-user btn-block mb-3"  >Signup</button>
+              <div id="message" class="alert alert-danger d-none"> 
+                
+              </div>
                 <a href="login.html"  class="btn btn-primary btn-user btn-block">
                   Register Account
                 </a>
@@ -90,7 +93,35 @@
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
-
+<script > 
+  $('#create-btn').click(function(){
+    // alert("salam");
+    $.ajax({
+      url: "http://localhost:8080/registeruser",
+      data: $('#user-frm').serialize(),
+      type: "POST",
+      crossDomain: true,
+      success: function(data){
+        console.log(data);
+        if(data.state=="success"){
+          window.location.href="http://google.com"
+        }else {
+          $('#message .alert').html(data.result);
+          $('#message').show();
+        }
+      }
+    })
+    .fail(function( jqXHR, textStatus,errorThrown ) {
+      var contentType   = jqXHR.getResponseHeader("Content-Type");
+        var responseBody  = $.parseJSON(jqXHR.responseText);
+      console.log(responseBody.result);
+      $('#message').html(responseBody.result);
+          $('#message').removeClass("d-none");
+      // alert("Error: " + textStatus + " : " + errorThrown) ;
+}) ;
+    return false;
+  });
+</script>
 </body>
 
 </html>
