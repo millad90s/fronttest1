@@ -110,8 +110,7 @@
           $('#message').show();
         }
       }
-    })
-    .fail(function( jqXHR, textStatus,errorThrown ) {
+    }).fail(function( jqXHR, textStatus,errorThrown ) {
       var contentType   = jqXHR.getResponseHeader("Content-Type");
         var responseBody  = $.parseJSON(jqXHR.responseText);
       console.log(responseBody.result);
